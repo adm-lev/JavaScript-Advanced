@@ -8,11 +8,19 @@ body {
 }
 
 header {
-    margin: 20px;
+    /* margin: 20px; */
+    background-color: darkgray;
+    padding: 10px 30px 10px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    background-color: darkgrey;
 }
 
 main {
-    margin: 20px;
+    margin: 0 0 0 20px;
 }
 
 .products {
@@ -26,6 +34,7 @@ main {
     border-radius: 10px;
     width: 150px;
     padding: 10px;
+    margin-right: 10px;
 }
 
 .btn {
@@ -33,4 +42,8 @@ main {
     background-color: bisque;
     border-radius: 10px;
     border: 0.5px solid grey;
+}
+
+.btn-cart {
+    
 }
