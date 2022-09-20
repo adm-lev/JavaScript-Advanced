@@ -1,44 +1,51 @@
 'use strict';
 
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 class Productlist {
     constructor (container='.products') {
         this.container = container;
         this.goods = [];
-        this._fetchProducts();
+        this._getProducts()
+            .then(data => {
+                this.goods = data;
+                this.render();
+            });
         this.render();
     }
 
-    _fetchProducts () {
-        this.goods = [
-            {id: 1, title: 'Notebook', price: 2000},
-            {id: 2, title: 'Mouse', price: 20},
-            {id: 3, title: 'Keyboard', price: 200},
-            {id: 4, title: 'Gamepad', price: 50},
-        ]
+    _getProducts () {
+
+        return fetch (`${API}/catalogData.json`)
+            .then(result => result.json())
+            .catch(error => {
+                console.log(error);
+            });
     }
 
+
     render () {
-        const block = document.querySelector(this.container);
+        const block = document.querySelector(this.container);       
         for (const product of this.goods) {
             const item = new ProductItem(product);
             block.insertAdjacentHTML('beforeend', item.render());
         }
     }
 // Д.З. метод, возвращающий сумму всех товаров
-    getSum () {
-        let sum = 0;       
-        this.goods.forEach(item => {
-            sum += item.price;
-        })
-        return sum;
-    }
+    // getSum () {
+    //     let sum = 0;   
+    //     console.log(this.goods);    
+    //     this.goods.forEach(item => {
+    //         sum += item.price;
+    //     })
+    //     return sum;
+    // }
 }
 
 class ProductItem {
     constructor (product, img='img/placeholder.webp') {
-        this.title = product.title;
-        this.id = product.id;
+        this.title = product.product_name;
+        this.id = product.id_product;
         this.price = product.price;
         this.img = img;
     }
@@ -54,45 +61,59 @@ class ProductItem {
 }
 // Д.З. Классы для корзины и товара в корзине
 class Cart {
-    addItem () {
-
+    constructor (container='.cart-bubble') {
+        this.container = container;
+        this.basket = {};
+        this._getBasket()
+            .then(data => {
+                this.basket = data;
+                this.render();
+            });
+        this.render();
     }
 
-    editItem () {
-        
+    _getBasket () {
+        return fetch (`${API}/getBasket.json`)
+            .then(result => result.json())
+            .catch(error => {
+                console.log(error);
+            });
     }
-    removeItem () {
 
-    }
+    // addItem () {}
+    // editItem () {}
+    // removeItem () {}
 
     render () {
-
+        const block = document.querySelector(this.container);       
+        for (const i in this.basket.contents) {           
+            const item = new BasketItem(this.basket.contents[i]);
+            block.insertAdjacentHTML('beforeend', item.render());
+        }
     }
 }
 
-class CatItem {
+class BasketItem {
+    constructor (product) {
+        this.title = product.product_name;
+        this.id = product.id_product;
+        this.price = product.price;
+        this.quantity = product.quantity;
+    }
     render () {
-
+        return `<div class ="basket-item">                
+                <p>${this.title}</p>
+                <p>${this.price}</p>
+                <p>${this.quantity}</p>                 
+                </div>`
     }
 }  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let list = new Productlist();
+let cart = new Cart();
 
-console.log(list.getSum());
+document.querySelector('.btn-cart').addEventListener('click', e => {
+    document.querySelector('.cart-bubble').classList.toggle('hidden');
+})
+
 
