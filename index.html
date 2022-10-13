@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div id="app">
+        <div v-for="item of products">
+            <p>{{ item.title }}</p>
+            <p>{{ item.price }}</p>
+            <img :src="item.img" :alt="item.title" width="200">
+            <br> <button>Добавить в корзину</button>
+        </div>
+        Привет {{ name }}!!! <br>
+        <a :href="link">Google Search</a> <br>
+        <button @click="counter++">OK {{ counter }}</button> <br>
+        <button @click="increase(forCounter)">OK {{ counter }}</button> <br>
+        <h2>{{ hello() }}</h2> <br>
+        <p v-if="show">is visible</p>
+        <p v-else="show">is not visible</p>
+        <button @click="show=!show">show</button>
+        <p>{{ counter > 10 ? 'Значение больше десяти' : 'Значение меньше или равно десяти' }}</p>
+        <p @mousemove="setCoordinates($event)">При наведении курсора на этот элемент, видны координаты: 
+            {{ x }}/{{ y }} <span @mousemove.stop>данный текст не реагирует на движение мыши</span>
+        </p>
+        <input type="text" v-model="name">
+        <div v-html="completeEl"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+    <script>
+        'use strict';
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: 'Иван',
+                link: 'https://google.com',
+                counter: 0,
+                forCounter: 3,
+                show: false,
+                x: 0,
+                y: 0,
+                completeEl: '<a href="https://yandex.com">Яндекс</a>',
+                products: [
+                    {
+                        id: 1,
+                        title: 'Audi',
+                        price:40000,
+                        img:"images/audi.jpg"
+                    },
+                    {
+                        id: 2,
+                        title: 'BMW',
+                        price:60000,
+                        img:"images/bmw.jpg"
+                    },
+                    {
+                        id: 3,
+                        title: 'VW',
+                        price:50000,
+                        img:"images/vw.jpg"
+                    }
+                ]
+            },
+            methods: {
+                hello () {
+                    return `Добрый день, ${this.name}`;
+                },
+                increase (x) {
+                    this.counter += x;
+                },
+                setCoordinates(e) {
+                   this.x = e.clientX;
+                   this.y = e.clientY;
+
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>
