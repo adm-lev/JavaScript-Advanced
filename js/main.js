@@ -6,14 +6,20 @@ const app = new Vue({
         catalogUrl: '/catalogData.json',
         products: [],
         filtered: [],
+        productsTemp: [],
         imgCatalog: 'https://via.placeholder.com/200x150',
         userSearch: '',
         show: false
     },
     methods: {
         filter(){
+        this.products = this.productsTemp;
          const regexp = new RegExp(this.userSearch, 'i');
          this.filtered = this.products.filter(product => regexp.test(product.product_name));
+         console.log(this.filtered);
+         if (this.filtered.length) {            
+            this.products = this.filtered;
+         }
         },
         getJson(url){
             return fetch(url)
@@ -38,7 +44,8 @@ const app = new Vue({
                 for(let el of data){
                     this.products.push(el);
                 }
-            })
+            });
+        this.productsTemp = this.products;
     }
 })
 
