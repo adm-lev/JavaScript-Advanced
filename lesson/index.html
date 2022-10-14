@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="prod-cont" id="app">
+        <div class="prod-list" v-for="item of products">
+            <p>Название товара: {{ item.title }}</p>
+            <p>Цена товара: {{ item.price }}</p>
+            <img :src="item.img" :alt="item.title" width="200">
+            <br> <button @click="addProduct(item)">Добавить в корзину</button>
+        </div>
+        <hr>
+        <h2 v-show="cart.length">Корзина покупок</h2>
+        <div class="cart-list" v-for="item of cart">
+            <p>Название товара: {{ item.title }}</p>
+            <p>Цена товара: {{ item.price }}</p>
+            <p>Количество товара: {{ item.quantity }}</p>
+            <p>Общая стоимость товара: {{ item.price * item.quantity }}</p>
+            <hr>
+            <!-- <img :src="item.img" :alt="item.title" width="200"> -->
+            <!-- <br> <button @click="addProduct(item)">Добавить в корзину</button> -->
+        </div>
+
+        <!-- Привет {{ name }}!!! <br>
+        <a :href="link">Google Search</a> <br>
+        <button @click="counter++">OK {{ counter }}</button> <br>
+        <button @click="increase(forCounter)">OK {{ counter }}</button> <br>
+        <h2>{{ hello() }}</h2> <br>
+        <p v-if="show">is visible</p>
+        <p v-else="show">is not visible</p>
+        <button @click="show=!show">show</button>
+        <p>{{ counter > 10 ? 'Значение больше десяти' : 'Значение меньше или равно десяти' }}</p>
+        <p @mousemove="setCoordinates($event)">При наведении курсора на этот элемент, видны координаты: 
+            {{ x }}/{{ y }} <span @mousemove.stop>данный текст не реагирует на движение мыши</span>
+        </p>
+        <input type="text" v-model="name">
+        <div v-html="completeEl"></div> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+    <script>
+        'use strict';
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: 'Иван',
+                link: 'https://google.com',
+                counter: 0,
+                forCounter: 3,
+                show: false,
+                x: 0,
+                y: 0,
+                completeEl: '<a href="https://yandex.com">Яндекс</a>',
+                products: [],
+                cart: []
+            },
+            methods: {
+                hello () {
+                    return `Добрый день, ${this.name}`;
+                },
+                increase (x) {
+                    this.counter += x;
+                },
+                setCoordinates(e) {
+                   this.x = e.clientX;
+                   this.y = e.clientY;
+                },
+                addProduct (item) {
+                    const find = this.cart.find(product => item.id === product.id);
+                    if (find) {
+                        find.quantity++;
+                    } else {
+                        this.$set(item, 'quantity', 1);
+                        // const cartItem = Object.assign({quantity:1}, item);
+                        this.cart.push(item);
+                    }
+
+                    console.log(this.cart);
+                }
+            },
+            mounted () {
+                this.products = [
+                    {
+                        id: 1,
+                        title: 'Audi',
+                        price:40000,
+                        img:"images/audi.jpg"
+                    },
+                    {
+                        id: 2,
+                        title: 'BMW',
+                        price:60000,
+                        img:"images/bmw.jpg"
+                    },
+                    {
+                        id: 3,
+                        title: 'VW',
+                        price:50000,
+                        img:"images/vw.jpg"
+                    }
+                ]
+            }
+
+        });
+    </script>
+</body>
+</html>
