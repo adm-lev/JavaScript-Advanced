@@ -47,6 +47,9 @@ button:focus{
     padding: 40px 80px;
     justify-content: space-between;
 }
+.error-connect {
+    color: red;
+}
 p {
     margin: 0 0 5px 0;
 }

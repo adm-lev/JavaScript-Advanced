@@ -11,13 +11,14 @@ const app = new Vue({
         filtered: [],
         imgCart: 'https://via.placeholder.com/50x100',
         products: [],
-        imgProduct: 'https://via.placeholder.com/200x150'
+        imgProduct: 'https://via.placeholder.com/200x150',
+        error: false,
     },
     methods: {
         getJson(url){
             return fetch(url)
                 .then(result => result.json())
-                .catch(error => console.log(error))
+                .catch(error => this.error = true)
         },
         addProduct(item){
             this.getJson(`${API}/addToBasket.json`)
