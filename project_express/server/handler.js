@@ -3,7 +3,8 @@ const fs = require('fs');
 
 const actions = {
     add: cart.add,
-    change: cart.change
+    change: cart.change,
+    erase: cart.erase,
 };
 //HANDLER отвечает за изменение данных в самом файле
 let handler = (req, res, action, file) => {
@@ -12,6 +13,7 @@ let handler = (req, res, action, file) => {
             res.sendStatus(404, JSON.stringify({result:0, text: err}));
         } else {
             let newCart = actions[action](JSON.parse(data), req);
+            // console.log('hello');
             fs.writeFile(file, newCart, (err) => {
                 if(err){
                     res.sendStatus(404, JSON.stringify({result:0, text: err}));

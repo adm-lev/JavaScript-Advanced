@@ -123,6 +123,9 @@ img {
 .product-bio{
     display: flex;
 }
+.product-bio img {
+    width: 50px;
+}
 .cart-item img{
     align-self: flex-start;
     margin-right: 15px;
